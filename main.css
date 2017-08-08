@@ -52,14 +52,13 @@ body {
 }
 
 #toolbar .gradient {
-    background: linear-gradient(to right, transparent, #ddd);
-    height: 100%;
+    background: linear-gradient(to right, rgba(221, 221, 221, 0), #ddd);
     margin-top: 0px;
     position: fixed;
     right: 0px;
     top: 0px;
     width: 35px;
-    height: 45px;
+    height: 60px;
 }
 
 .print-group {
