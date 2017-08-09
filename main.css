@@ -246,3 +246,14 @@ body {
         box-shadow: 0 0 10px #777;
     border-radius:4px; 
 }
+
+@media screen and (max-width: 699px) and (min-width: 300px) {
+    #text{
+        width: 90%;
+        padding: 30px 30px; 
+    }
+    
+    .printer-group{
+        display:none;
+    }
+}
