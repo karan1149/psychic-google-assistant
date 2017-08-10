@@ -11,7 +11,9 @@ box.addEventListener('keydown', handleKeyDown)
 var listening = false;
 var phrase = "";
 
-var disabled = false
+var disabled = false;
+
+var apiURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/acceptPhrase";
 
 // TODO add disable feature
 function handleKeyDown(e) {
@@ -49,5 +51,9 @@ function handleKeyDown(e) {
 }
 
 function sendPhrase(phraseObject){
-  console.log(phraseObject);
+  // construct an HTTP request
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", apiURL);
+  xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+  xhr.send(JSON.stringify(phraseObject));
 }
