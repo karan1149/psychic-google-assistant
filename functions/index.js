@@ -31,13 +31,26 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   const app = new App({request, response});
 
   // Fulfill action business logic
-  function welcomeHandler (app) {
+  function welcomeHandler(app) {
     // Check if user is initiated
-    app.tell('Hello, World!');
+    app.ask('Hello, World!');
+  }
+
+  function unknownDeeplinkHandler(app) {
+    app.ask(`Welcome to your Psychic! I can guess many things about \
+      you, but I cannot make guesses about \
+      ${app.getRawInput()}. \
+      Instead, I shall guess your name or location. Which do you prefer?`);
+  }
+
+  function questionHandler(app) {
+    app.ask("Do you have any more questions?")
   }
 
   const actionMap = new Map();
   actionMap.set('input.welcome', welcomeHandler);
+  actionMap.set('deeplink.unknown', unknownDeeplinkHandler)
+  actionMap.set('input.unknown', questionHandler)
 
   app.handleRequest(actionMap);
 });
