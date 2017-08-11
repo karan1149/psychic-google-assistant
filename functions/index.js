@@ -53,8 +53,22 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   }
 
   function questionHandler(app) {
-    app.ask("Do you have any more questions?")
+    var userID = "test";
+    var phraseInfoRef = db.ref("users").child(userID).child("phraseInfo");
+    var now = Date.now();
+    phraseInfoRef.on("value", function onPhraseInfoChange(snapshot){
+      var phraseInfo = snapshot.val();
+      var difference = now - phraseInfo.time
+      console.log(phraseInfo, difference);
+      if (difference <= 3000 && difference > -5000){
+        console.log("printing now");
 
+        app.ask(getTextResponse(phraseInfo.phraseObject));
+      }
+    });
+    // setTimeout(function(){
+    //   phraseInfoRef.off("value", onPhraseInfoChange)
+    // }, 6000);
 
   }
 
