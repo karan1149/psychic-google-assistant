@@ -56,19 +56,29 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
     var userID = "test";
     var phraseInfoRef = db.ref("users").child(userID).child("phraseInfo");
     var now = Date.now();
+    var sent = false;
     phraseInfoRef.on("value", function onPhraseInfoChange(snapshot){
       var phraseInfo = snapshot.val();
+      // coodinate time better
       var difference = now - phraseInfo.time
       console.log(phraseInfo, difference);
       if (difference <= 3000 && difference > -5000){
         console.log("printing now");
 
         app.ask(getTextResponse(phraseInfo.phraseObject));
+        phraseInfoRef.off("value", onPhraseInfoChange);
+        phraseInfoRef.set(null);
+        sent = true;
       }
     });
-    // setTimeout(function(){
-    //   phraseInfoRef.off("value", onPhraseInfoChange)
-    // }, 6000);
+    setTimeout(function(){
+      if (!sent){
+        console.log("not sent");
+        app.ask("I don't have much to say");
+        phraseInfoRef.off("value");
+        phraseInfoRef.set(null);
+      }
+    }, 6000);
 
   }
 
