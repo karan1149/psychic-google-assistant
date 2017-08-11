@@ -75,3 +75,15 @@ function encodeAsFirebaseKey (string) {
     .replace(/\[/g, '%5B')
     .replace(/\]/g, '%5D');
 }
+
+function getTextResponse(phraseObject){
+  if (phraseObject.boolean){
+    if (phraseObject.yes){
+      return "yes";
+    } else {
+      return "no";
+    }
+  } else {
+    return phraseObject.value;
+  }
+}
