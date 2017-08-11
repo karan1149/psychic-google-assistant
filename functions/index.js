@@ -6,6 +6,7 @@ const functions = require('firebase-functions');
 
 const firebaseAdmin = require('firebase-admin');
 firebaseAdmin.initializeApp(functions.config().firebase);
+var db = firebaseAdmin.database();
 
 // TODO set host correctly
 const cors = require('cors')({origin: "http://localhost:8000"});
@@ -13,9 +14,13 @@ const cors = require('cors')({origin: "http://localhost:8000"});
 exports.acceptPhrase = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
     var phraseObject = request.body;
-    if (phraseObject.boolean == true){
-      if (phraseObject.yes == true){
-        console.log("yes");
+    // validate request
+    if (typeof(phraseObject.boolean) != "boolean" || phraseObject.boolean && typeof(phraseObject.yes) != "boolean" || !phraseObject.boolean && typeof(phraseObject.value) != "string"){
+      response.status(400).json({"error": "input phrase object does not appear to be valid"});
+      return;
+    }
+
+    // map request to ID if it is valid
     var userID = "test";
     var userRef = db.ref('users').child(encodeAsFirebaseKey(userID));
     userRef.update({"phraseInfo": {"time": Date.now(), "phraseObject": phraseObject}}, function(error){
@@ -49,6 +54,8 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
 
   function questionHandler(app) {
     app.ask("Do you have any more questions?")
+
+
   }
 
   const actionMap = new Map();
