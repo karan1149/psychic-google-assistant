@@ -42,7 +42,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   // Fulfill action business logic
   function welcomeHandler(app) {
     // Check if user is initiated
-    app.ask('Hello, World!');
+    app.ask('Hello, World! Ask me any question you like.');
   }
 
   function unknownDeeplinkHandler(app) {
@@ -57,35 +57,53 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
     var phraseInfoRef = db.ref("users").child(userID).child("phraseInfo");
     var now = Date.now();
     var sent = false;
+    phraseInfoRef.off("value");
     phraseInfoRef.on("value", function onPhraseInfoChange(snapshot){
       var phraseInfo = snapshot.val();
+      if (phraseInfo == null){
+        console.log("phraseInfo is null, sent value is", sent);
+        return;
+      }
       // coodinate time better
       var difference = now - phraseInfo.time
       console.log(phraseInfo, difference);
-      if (difference <= 3000 && difference > -5000){
+      if (difference <= 5000 && difference > -5000){
         console.log("printing now");
-
         app.ask(getTextResponse(phraseInfo.phraseObject));
-        phraseInfoRef.off("value", onPhraseInfoChange);
+
+        phraseInfoRef.off("value");
+        console.log("set off in on");
         phraseInfoRef.set(null);
         sent = true;
       }
     });
     setTimeout(function(){
+      console.log("checking if sent");
       if (!sent){
         console.log("not sent");
         app.ask("I don't have much to say");
         phraseInfoRef.off("value");
+        console.log("set off in timeout");
         phraseInfoRef.set(null);
       }
     }, 6000);
 
   }
 
+  function initiationHandler(app) {
+    app.ask("Initiation starts now");
+  }
+
+  function repeatHandler(app) {
+    app.ask("I dont want to repeat anything for you.");
+  }
+
   const actionMap = new Map();
   actionMap.set('input.welcome', welcomeHandler);
-  actionMap.set('deeplink.unknown', unknownDeeplinkHandler)
-  actionMap.set('input.unknown', questionHandler)
+  actionMap.set('deeplink.unknown', unknownDeeplinkHandler);
+  actionMap.set('input.unknown', questionHandler);
+  actionMap.set("initiation.help", initiationHandler);
+  actionMap.set("repeat", repeatHandler);
 
   app.handleRequest(actionMap);
 });

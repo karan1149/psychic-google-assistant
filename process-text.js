@@ -18,7 +18,7 @@ var apiURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/acceptPhrase"
 // TODO add disable feature
 function handleKeyDown(e) {
   console.log(e)
-  if (e.key == "$"){
+  if (e.key == "!"){
     disabled = !disabled;
     e.preventDefault();
     return false;
