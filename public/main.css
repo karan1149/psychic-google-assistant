@@ -245,7 +245,7 @@ body {
 @media screen and (max-width: 900px) {
     #text{
         width: 85%;
-        padding: 30px 30px;
+        padding: 25px 25px;
     }
 
     .print-group{
