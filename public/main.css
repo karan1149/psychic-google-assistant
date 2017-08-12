@@ -1,3 +1,17 @@
+#toolbar #arial-arrow {
+    position:relative;
+    top: 2px;
+    margin: 7px 0px 0px 15px;
+    padding: 3px;
+
+}
+#toolbar #fontsize-arrow {
+    position:relative;
+    top: 2px;
+    margin: 7px 0px 0px 15px;
+    padding: 3px;
+}
+
 #toolbar i.material-icons {
 
     font-size: 20px;
@@ -7,13 +21,6 @@
 }
 
 
-.arrow{
-    font size:5px;
-    position:relative;
-    top:5px;
-
-
-}
 
 #toolbar {
     background-color: #ddd;
@@ -75,7 +82,7 @@ body {
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 0px;
+
 }
 
 #toolbar .word {
@@ -86,6 +93,7 @@ body {
     border-right: 1px solid #bbb;
     height: 100%;
     padding-right: 10px;
+    margin-top: 8px;
 
 }
 
@@ -126,15 +134,8 @@ body {
 
 }
 
-.font-group {
-    ;
-}
 
-.arial-arrow {
-    position:relative;
-    top:5px;
 
-}
 
 .fontsize-group {
     padding-left: 10px;
@@ -142,11 +143,7 @@ body {
 
 }
 
-.fontsize-arrow {
-    position:relative;
-    left: 2px;
-    top: 5px;
-}
+
 
 
 .wordicon-styletext {
@@ -195,7 +192,7 @@ body {
 .wordicon-fontfamily {
     padding-left: 10px;
     border:1px solid #ddd;
-    padding-bottom: 0px;
+    padding-bottom: 7px;
 
 }
 
@@ -235,7 +232,7 @@ body {
 
 .wordicon-fontsize {
     border: 1px solid #ddd;
-    padding-bottom: 0px;
+    padding-bottom: 7px;
 
 }
 
@@ -245,13 +242,13 @@ body {
     border-radius:4px;
 }
 
-@media screen and (max-width: 699px) and (min-width: 300px) {
+@media screen and (max-width: 900px) {
     #text{
-        width: 90%;
+        width: 85%;
         padding: 30px 30px;
     }
 
-    .printer-group{
+    .print-group{
         display:none;
     }
 }
