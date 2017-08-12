@@ -26,6 +26,13 @@ function handleKeyDown(e) {
   if (disabled){
     return true;
   }
+  if (e.key == "Backspace"){
+    currentIndex--;
+    if (listening && phrase.length > 0){
+      phrase = phrase.slice(0, phrase.length - 1);
+    }
+    return true;
+  }
   e.preventDefault();
   if (listening && (e.code.startsWith("Key") || e.key == " " || e.code.startsWith("Digit"))){
     phrase = phrase + e.key
@@ -51,6 +58,7 @@ function handleKeyDown(e) {
 }
 
 function sendPhrase(phraseObject){
+  console.log(phraseObject);
   // construct an HTTP request
   var xhr = new XMLHttpRequest();
   xhr.open("POST", apiURL);
