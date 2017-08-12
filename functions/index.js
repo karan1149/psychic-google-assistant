@@ -8,8 +8,17 @@ const firebaseAdmin = require('firebase-admin');
 firebaseAdmin.initializeApp(functions.config().firebase);
 var db = firebaseAdmin.database();
 
+var whitelist = ['http://localhost:8000', 'https://psychic-df2b4.firebaseapp.com'];
+var corsOptions = {
+  origin: function(origin, callback){
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  }
+};
+
 // TODO set host correctly
-const cors = require('cors')({origin: "http://localhost:8000"});
+// const cors = require('cors')({origin: "http://localhost:8000"});
+const cors = require('cors')(corsOptions);
 
 exports.acceptPhrase = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
