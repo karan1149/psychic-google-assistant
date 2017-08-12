@@ -27,7 +27,7 @@ function handleKeyDown(e) {
     return true;
   }
   e.preventDefault();
-  if (listening && (e.code.startsWith("Key") || e.key == " ")){
+  if (listening && (e.code.startsWith("Key") || e.key == " " || e.code.startsWith("Digit"))){
     phrase = phrase + e.key
   }
   else if (e.key == "y"){
