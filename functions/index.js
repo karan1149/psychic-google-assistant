@@ -20,6 +20,8 @@ var corsOptions = {
 // const cors = require('cors')({origin: "http://localhost:8000"});
 const cors = require('cors')(corsOptions);
 
+var possibleBotNames = ["John", "Mary"];
+
 exports.registerUsername = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
     var registerObject = request.body;
