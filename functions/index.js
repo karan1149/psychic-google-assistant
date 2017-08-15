@@ -120,11 +120,9 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
       var difference = now - phraseInfo.time
       console.log(phraseInfo, difference);
       if (difference <= 5000 && difference > -5000){
-        console.log("printing now");
         app.ask(getTextResponse(phraseInfo.phraseObject));
 
         phraseInfoRef.off("value");
-        console.log("set off in on");
         phraseInfoRef.set(null);
         sent = true;
       }
@@ -135,7 +133,6 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
         console.log("not sent");
         app.ask("I don't have much to say");
         phraseInfoRef.off("value");
-        console.log("set off in timeout");
         phraseInfoRef.set(null);
       }
     }, 6000);
