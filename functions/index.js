@@ -112,11 +112,9 @@ exports.login = functions.https.onRequest((request, response) => {
           } else {
             response.status(200).json({"success": "UserID successfully retrieved.", "id": usernameInfo});
           }
-        });
-        
+        });   
       }
     });
-
   });
 });
 
@@ -126,7 +124,13 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   // Fulfill action business logic
   function welcomeHandler(app) {
     // Check if user is initiated
-    app.ask('Hello, World! Ask me any question you like.');
+    var botName = possibleBotNames[Math.floor(Math.random() * possibleBotNames.length)];
+    app.ask('Hello, my name is ' + botName + '! Ask me any question you like.');
+    var userId = app.body_.originalRequest.data.user.userId;
+    var botRef = db.ref("users").child(encodeAsFirebaseKey(userId)).child("botName");
+    botRef.set(botName, function(error){
+      if (error) console.log("error writing bot name to userID", userId);
+    });
   }
 
   function unknownDeeplinkHandler(app) {
@@ -137,6 +141,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   }
 
   function questionHandler(app) {
+    console.log(app.body_.originalRequest.data.user.userId);
     var userID = "test";
     var phraseInfoRef = db.ref("users").child(userID).child("phraseInfo");
     var now = Date.now();
