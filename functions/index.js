@@ -20,6 +20,49 @@ var corsOptions = {
 // const cors = require('cors')({origin: "http://localhost:8000"});
 const cors = require('cors')(corsOptions);
 
+exports.registerUsername = functions.https.onRequest((request, response) => {
+  cors(request, response, () => {
+    var registerObject = request.body;
+    // validate request 
+    if (typeof(registerObject.pin) != "number" || typeof(registerObject.username) != "string" || typeof(registerObject.botName) != "string" || !isAlphaNumeric(registerObject.username)){
+      response.status(400).json({"error": "Your registration information does not appear to be valid. Be sure that the username is alphanumeric and that the PIN is a valid number."});
+      return;
+    } 
+    var registrationRef = db.ref('registrations').child(encodeAsFirebaseKey(registerObject.pin));
+    ref.once("value", function(snapshot){
+      var registerInfo = snapshot.val();
+      if (registerInfo == null){
+        response.status(400).json({"error": "Your PIN seems to be incorrect."})
+      } else {
+        if (registerInfo.botName != registerObject.botName){
+          response.status(400).json({"error": "Your bot name seems to be incorrect."});
+        } else {     
+          var usernameRef = db.ref('usernames').child(encodeAsFirebaseKey(registerObject.username));
+          usernameRef.once("value", function(usernameSnapshot){
+            if (usernameSnapshot.val() != null){
+              response.status(400).json({"error": "Your username appears to be taken."})
+            } else {
+              registrationRef.set(null, function(error){
+                if (error){
+                  response.status(500).json({"error": "Could not clear old registration data."});
+                } else {
+                  usernameRef.set(registerInfo.userID, function(error){
+                    if (error) {
+                      response.status(500).json({"error": "Could not register new username."});
+                    } else {
+                      response.status(200).json({"success": "Successfully linked your username to your device."})
+                    }
+                  })
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  }); 
+});
+
 exports.acceptPhrase = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
     var phraseObject = request.body;
