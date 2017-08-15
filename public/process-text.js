@@ -94,8 +94,8 @@ function sendPhrase(phraseObject){
 }
 
 function getKeyType(key){
-  if (key != ".")
-    return "Key"
-  else 
-    return ""
+  var code = key.charCodeAt(0);
+  if (code > 47 && code < 58) return "Digit"
+  else if (code > 64 && code < 91 || code > 96 && code < 123) return "Key"
+  else return ""
 }
