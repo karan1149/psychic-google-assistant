@@ -52,7 +52,7 @@ exports.registerUsername = functions.https.onRequest((request, response) => {
                     } else {
                       response.status(200).json({"success": "Successfully linked your username to your device."})
                     }
-                  })
+                  });
                 }
               });
             }
@@ -102,9 +102,18 @@ exports.login = functions.https.onRequest((request, response) => {
       if (usernameInfo == null) {
         response.status(400).json({"error": "Username appears to be incorrect. If you forgot your username, just ask your Google Assistant for help with initiation."});
       } else {
-        response.status(200).json({"success": "UserID successfully retrieved.", "id": usernameInfo});
+        var userRef = db.ref("users").child(encodeAsFirebaseKey(usernameInfo)).child("botName")
+        userRef.once("value", function(botNameSnapshot){
+          var botNameInfo = botNameSnapshot.val();
+          if (botNameInfo.toLowerCase() != loginObject.botName.toLowerCase()){
+            response.status(400).json({"error": "The assistant name you entered appears to be incorrect."})
+          } else {
+            response.status(200).json({"success": "UserID successfully retrieved.", "id": usernameInfo});
+          }
+        });
+        
       }
-    })
+    });
 
   });
 });
