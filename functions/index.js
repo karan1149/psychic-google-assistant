@@ -35,7 +35,7 @@ exports.acceptPhrase = functions.https.onRequest((request, response) => {
     userRef.update({"phraseInfo": {"time": Date.now(), "phraseObject": phraseObject}}, function(error){
       if (error){
         response.status(500).json({"message": "An error ocurred when writing to db", "error": error})
-        console.log({"message": "An error ocurred when writing to db", "error": error, "userID": userID, "phraseObject": phraseObject});
+        console.log({"message": "An error ocurred when writing to db", "error": error, "userID": userID, "phraseObject": phraseObject, "userID": userID});
       } else {
         response.status(200).json({"message": "Successfully wrote phrase"});
         console.log({"message": "Successfully wrote phrase"})
