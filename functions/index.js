@@ -88,6 +88,27 @@ exports.acceptPhrase = functions.https.onRequest((request, response) => {
 
 });
 
+exports.login = functions.https.onRequest((request, response) => {
+  cors(request, response, () => {
+    loginObject = request.body;
+    // validate requests
+    if (typeof(loginObject.username) != "string" || typeof(loginObject.botName) != "string" || !isAlphaNumeric(username)){
+      response.status(400).json({"error": "Username and botname do not appear to have the correct format."});
+      return;
+    }
+    var usernameRef = db.ref("usernames").child(encodeAsFirebaseKey(loginObject.username));
+    usernameRef.once("value", function(snapshot){
+      var usernameInfo = snapshot.val();
+      if (usernameInfo == null) {
+        response.status(400).json({"error": "Username appears to be incorrect. If you forgot your username, just ask your Google Assistant for help with initiation."});
+      } else {
+        response.status(200).json({"success": "UserID successfully retrieved.", "id": usernameInfo});
+      }
+    })
+
+  });
+});
+
 exports.psychicGuess = functions.https.onRequest((request, response) => {
   const app = new App({request, response});
 
