@@ -59,7 +59,7 @@ function handleKeyDown() {
       console.log("unexpected", prevValue, box.value);
     } 
   }
-  console.log(e);
+  // console.log(e);
   
   if (listening && (e.type == "Key" || e.key == " " || e.type == "Digit" || e.type == "Many" || e.key == ",")){
     phrase = phrase + e.key
@@ -85,7 +85,7 @@ function handleKeyDown() {
 }
 
 function sendPhrase(phraseObject){
-  console.log("sending", phraseObject);
+  // console.log("sending", phraseObject);
   // construct an HTTP request
   var xhr = new XMLHttpRequest();
   xhr.open("POST", apiURL);
