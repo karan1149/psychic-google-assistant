@@ -40,25 +40,27 @@ exports.registerUsername = functions.https.onRequest((request, response) => {
           response.status(400).json({"error": "Your bot name seems to be incorrect."});
         } else {     
           var usernameRef = db.ref('usernames').child(encodeAsFirebaseKey(registerObject.username));
-          usernameRef.once("value", function(usernameSnapshot){
-            if (usernameSnapshot.val() != null){
+          usernameRef.transaction(function(usernameInfo){
+            if (usernameInfo == null){
+              return registerInfo.userID;
+            } else {
+              return;
+            }
+          }, function(error, committed, usernameInfoSnapshot){
+            if (error){
+              response.status(500).json({"error": "Adding your username information to database failed abnormally. Refresh and try again!"});
+            } else if (!committed) {
               response.status(400).json({"error": "Your username appears to be taken."})
             } else {
-              registrationRef.set(null, function(error){
-                if (error){
-                  response.status(500).json({"error": "Could not clear old registration data."});
+              registrationRef.set(null, function(errorRegistrationRef){
+                if (errorRegistrationRef){
+                  response.status(500).json({"error": "Could not clear old registration data, but your username appears to be registered now."});
                 } else {
-                  usernameRef.set(registerInfo.userID, function(error){
-                    if (error) {
-                      response.status(500).json({"error": "Could not register new username."});
-                    } else {
-                      response.status(200).json({"success": "Successfully linked your username to your device."})
-                    }
-                  });
+                  response.status(200).json({"success": "Successfully linked your username to your device."})
                 }
               });
             }
-          });
+          });  
         }
       }
     });
