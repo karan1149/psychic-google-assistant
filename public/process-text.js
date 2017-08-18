@@ -85,7 +85,7 @@ function handleKeyDown() {
 }
 
 function sendPhrase(phraseObject){
-  // console.log("sending", phraseObject);
+  console.log("sending", phraseObject);
   // construct an HTTP request
   var xhr = new XMLHttpRequest();
   xhr.open("POST", apiURL);
