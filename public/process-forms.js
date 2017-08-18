@@ -1,14 +1,14 @@
 'use strict';
 
-var registerURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/acceptPhrase";
-var loginURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/acceptPhrase";
+var registerURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/registerUsername";
+var loginURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/login";
 
-function loginHandler(e){
-	e.preventDefault();
+function loginHandler(){
 	var loginObject = {};
 	loginObject.username = document.getElementById("username").value;
 	loginObject.botName = document.getElementById("botName").value;
-	$.ajax(loginURL, {
+	$.ajax({
+		url: loginURL,
 		type: "POST",
 		data: loginObject,
 		contentType: "application/json",
@@ -23,13 +23,13 @@ function loginHandler(e){
 	});
 }
 
-function registerHandler(e){
-	e.preventDefault();
+function registerHandler(){
 	var registerObject = {};
 	registerObject.username = document.getElementById("username").value;
 	registerObject.botName = document.getElementById("botName").value;
 	registerObject.pin = document.getElementById("pin").value;
-	$.ajax(loginURL, {
+	$.ajax({
+		url: registerURL,
 		type: "POST",
 		data: registerObject,
 		contentType: "application/json",

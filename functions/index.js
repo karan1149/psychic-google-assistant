@@ -127,19 +127,23 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   function welcomeHandler(app) {
     // Check if user is initiated
     var botName = possibleBotNames[Math.floor(Math.random() * possibleBotNames.length)];
-    app.ask('Hello, my name is ' + botName + '! Ask me any question you like.');
-    var userId = app.body_.originalRequest.data.user.userId;
-    var botRef = db.ref("users").child(encodeAsFirebaseKey(userId)).child("botName");
+    var textResponse = 'Hello, my name is ' + botName + '! Ask me any question you like.';
+    app.ask(textResponse);
+    var userID = app.body_.originalRequest.data.user.userId;
+    var botRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("botName");
     botRef.set(botName, function(error){
-      if (error) console.log("error writing bot name to userID", userId);
+      if (error) console.log("error writing bot name to userID", userID);
     });
+    recordLastResponse(userID, textResponse);
   }
 
   function unknownDeeplinkHandler(app) {
-    app.ask(`Welcome to your Psychic! I can guess many things about \
+    var textResponse = `Welcome to your Psychic! I can guess many things about \
       you, but I cannot make guesses about \
       ${app.getRawInput()}. \
-      Instead, I shall guess your name or location. Which do you prefer?`);
+      Instead, I shall guess your name or location. Which do you prefer?`
+    app.ask(textResponse);
+    recordLastResponse(app.body_.originalRequest.data.user.userId, textResponse);
   }
 
   function questionHandler(app) {
@@ -159,20 +163,25 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
       var difference = now - phraseInfo.time
       console.log(phraseInfo, difference);
       if (difference <= 5000 && difference > -5000){
-        app.ask(getTextResponse(phraseInfo.phraseObject));
+        var textResponse = getTextResponse(phraseInfo.phraseObject)
+        app.ask(textResponse);
 
         phraseInfoRef.off("value");
         phraseInfoRef.set(null);
         sent = true;
+
+        recordLastResponse(userID, textResponse);
       }
     });
     setTimeout(function(){
       console.log("checking if sent");
       if (!sent){
         console.log("not sent");
-        app.ask("I don't have much to say");
+        var textResponse = "I don't have much to say";
+        app.ask(textResponse);
         phraseInfoRef.off("value");
         phraseInfoRef.set(null);
+        recordLastResponse(userID, textResponse);
       }
     }, 6000);
 
@@ -183,7 +192,20 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   }
 
   function repeatHandler(app) {
-    app.ask("I dont want to repeat anything for you.");
+    var userID = app.body_.originalRequest.data.user.userId;
+    var lastResponseRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("lastResponse");
+    lastResponseRef.once(function(lastResponseSnapshot){
+      lastResponseInfo = lastResponseSnapshot.val();
+      var now = Date.now();
+      if (lastResponseInfo == null || lastResponseInfo.time == null || now - lastResponseInfo.time >= 60000){
+        var textResponse = "Honestly, I don't remember what I said. Did you have any questions to ask me?"
+        app.ask(textResponse);
+        recordLastResponse(userID, textResponse);
+      } else {
+        var textResponse = // TODO ssml
+        app.ask(textResponse);
+      }
+    })
   }
 
   const actionMap = new Map();
@@ -230,4 +252,11 @@ function isAlphaNumeric(str) {
     }
   }
   return true;
-};
+}
+
+function recordLastResponse(userID, response){
+  var lastResponseRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("lastResponse");
+  lastResponseRef.set({"time": Date.now(), "response": response}, function(error){
+    if (error) console.log("There was an error in recording last response", userID, response);
+  });
+}
