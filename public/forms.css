@@ -1,7 +1,7 @@
 /* FORMS */
 
 body {
-    background-color: #eeeeee;
+    background-color: #eee;
     font-family: 'Helvetica Neue', 'Arial', sans-serif;
     font-size: 18px;
 }
@@ -14,7 +14,7 @@ form {
 
 #form-container {
     text-align: center;
-    width: 80%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -75,4 +75,27 @@ form {
 
 h2 {
     margin-top: 120px;
+    font-size: 31px;
+}
+
+@media screen and (max-width: 350px) {
+    #form-container input[type="text"], #form-container input[type="number"]{
+        width: 175px;
+        font-size: 24px;
+    }
+
+    #form-container input[type="submit"]{
+        width: 249px;
+        font-size: 40px;
+        border: none;
+        background-color: #7600b3;
+        color: white;
+        margin-top: 10px;
+        padding: 20px 30px;
+    }
+
+    h2 {
+        font-size: 27px;
+        margin-top: 70px;
+    }
 }
