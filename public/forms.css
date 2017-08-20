@@ -46,6 +46,7 @@ form {
     color: white;
     margin-top: 10px;
     padding: 20px 30px;
+    cursor: pointer;
 }
 
 #form-container input[type="submit"]:hover{
@@ -76,6 +77,10 @@ form {
 h2 {
     margin-top: 120px;
     font-size: 31px;
+}
+
+#message {
+    margin-top: 30px;
 }
 
 @media screen and (max-width: 350px) {
