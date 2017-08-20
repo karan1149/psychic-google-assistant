@@ -1,9 +1,9 @@
 'use strict';
 
-var possibleTexts = ["Hello my name is Karan"]
+var possibleTexts = ["Hello my name is Karan",  "Hello my name is Rahul"];
 
-var textIndex = 0
-var currentIndex = 4
+var textIndex = Math.floor(Math.random() * possibleTexts.length);
+var currentIndex = Math.floor(possibleTexts[textIndex].length / 4);
 
 var box = document.getElementById("text")
 box.value = possibleTexts[textIndex].slice(0, currentIndex);
