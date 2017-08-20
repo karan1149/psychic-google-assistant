@@ -1,15 +1,16 @@
 #toolbar #arial-arrow {
     position:relative;
-    top: 2px;
-    margin: 7px 0px 0px 15px;
+    top: 5px;
+    margin: 0px;
     padding: 3px;
 
 }
 #toolbar #fontsize-arrow {
-    position:relative;
-    top: 2px;
-    margin: 7px 0px 0px 15px;
-    padding: 3px;
+    position: relative;
+    top: 5px;
+    margin: 0px;
+    padding:0px;
+    padding-left: 5px;
 }
 
 #toolbar i.material-icons {
@@ -78,10 +79,12 @@ body {
 }
 
 #toolbar .word-group {
-    border-right: 1px solid #bbb;
+    
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;
+    position:relative;
+    top:-5px;
 
 }
 
@@ -94,6 +97,7 @@ body {
     height: 100%;
     padding-right: 10px;
     margin-top: 8px;
+    border-left: 1px solid #bbb;
 
 }
 
@@ -129,8 +133,8 @@ body {
 }
 
 .fontfamily-group {
-    padding-left: 0px;
-
+    padding-left: 5px;
+    padding-bottom: 6px;
 
 }
 
@@ -138,8 +142,11 @@ body {
 
 
 .fontsize-group {
-    padding-left: 10px;
+    padding-left: 4px;
     padding-right: 0px;
+    padding-bottom: 6px;
+    padding-top: 5px;
+    margin-left: 3px;
 
 }
 
@@ -190,19 +197,12 @@ body {
 
 
 .wordicon-fontfamily {
-    padding-left: 10px;
-    border:1px solid #ddd;
-    padding-bottom: 7px;
-
+  
 }
 
 
 
-.wordicon-fontfamily:hover {
-      -webkit-box-shadow: 0 0 10px #777;
-        box-shadow: 0 0 10px #777;
-    border-radius:4px;
-}
+
 
 
 
@@ -227,17 +227,6 @@ body {
 }
 
 
-.wordicon-fontsize {
-    border: 1px solid #ddd;
-    padding-bottom: 7px;
-
-}
-
-.wordicon-fontsize:hover {
-     -webkit-box-shadow: 0 0 10px #777;
-        box-shadow: 0 0 10px #777;
-    border-radius:4px;
-}
 
 #form-container {
     width: 900px;
@@ -256,4 +245,18 @@ body {
     .print-group{
         display:none;
     }
+}
+
+.fontfamily-group:hover {
+      -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+    border-radius:4px;    
+}
+
+
+
+.fontsize-group:hover {
+     -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+    border-radius:4px;
 }
