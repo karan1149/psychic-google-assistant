@@ -1,7 +1,5 @@
 'use strict';
 
-var possibleTexts = ["Hello my name is Karan",  "Hello my name is Rahul"];
-
 var textIndex = Math.floor(Math.random() * possibleTexts.length);
 var currentIndex = Math.floor(possibleTexts[textIndex].length / 4);
 
