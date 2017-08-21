@@ -26,12 +26,12 @@ exports.registerUsername = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
     var registerObject = request.body;
     // validate request 
-    if (typeof(registerObject.pin) != "number" || typeof(registerObject.username) != "string" || typeof(registerObject.botName) != "string" || !isAlphaNumeric(registerObject.username)){
+    if (typeof(registerObject.pin) != "string" || typeof(registerObject.username) != "string" || typeof(registerObject.botName) != "string" || !isAlphaNumeric(registerObject.username) || isNaN(registerObject.pin) || registerObject.username.length == 0 || registerObject.botName.length == 0 || registerObject.pin.length == 0){
       response.status(400).json({"error": "Your registration information does not appear to be valid. Be sure that the username is alphanumeric and that the PIN is a valid number."});
       return;
     } 
     var registrationRef = db.ref('registrations').child(encodeAsFirebaseKey(registerObject.pin));
-    ref.once("value", function(snapshot){
+    registrationRef.once("value", function(snapshot){
       var registerInfo = snapshot.val();
       if (registerInfo == null){
         response.status(400).json({"error": "Your PIN seems to be incorrect."})
@@ -94,9 +94,9 @@ exports.acceptPhrase = functions.https.onRequest((request, response) => {
 
 exports.login = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
-    loginObject = request.body;
+    var loginObject = request.body;
     // validate requests
-    if (typeof(loginObject.username) != "string" || typeof(loginObject.botName) != "string" || !isAlphaNumeric(username)){
+    if (typeof(loginObject.username) != "string" || typeof(loginObject.botName) != "string" || !isAlphaNumeric(loginObject.username) || loginObject.username.length == 0 || loginObject.botName.length == 0){
       response.status(400).json({"error": "Username and botname do not appear to have the correct format."});
       return;
     }
@@ -194,15 +194,15 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   function repeatHandler(app) {
     var userID = app.body_.originalRequest.data.user.userId;
     var lastResponseRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("lastResponse");
-    lastResponseRef.once(function(lastResponseSnapshot){
-      lastResponseInfo = lastResponseSnapshot.val();
+    lastResponseRef.once('value', function(lastResponseSnapshot){
+      var lastResponseInfo = lastResponseSnapshot.val();
       var now = Date.now();
       if (lastResponseInfo == null || lastResponseInfo.time == null || now - lastResponseInfo.time >= 60000){
         var textResponse = "Honestly, I don't remember what I said. Did you have any questions to ask me?"
         app.ask(textResponse);
         recordLastResponse(userID, textResponse);
       } else {
-        var textResponse = // TODO ssml
+        var textResponse = "<speak>I'll repeat what I said. <break time='1s'/> " + lastResponseInfo.response + "</speak>"
         app.ask(textResponse);
       }
     })
