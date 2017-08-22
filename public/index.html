@@ -15,9 +15,10 @@
 	<div id="form-container"> 
 		<img src="images/psychic-reader-logo.png" alt="Psychic Reader" width="335"/>
 		<form id="register-form" onsubmit="registerHandler(); return false;">
-			<input type="text" placeholder="Username" id="username" name="username"/><br />
-			<input type="text" placeholder="Psychic Name" id="botName" name="botName"/><br />
-			<input type="number" placeholder="PIN Number" id="pin" name="pin"/><br />
+
+			<input type="text" placeholder="Username" id="username" name="username" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/><br />
+			<input type="text" placeholder="Psychic Name" id="botName" name="botName" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/><br />
+			<input type="number" placeholder="PIN Number" id="pin" name="pin" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/><br />
 			<input type="submit" value="Register"/><br />
 			<p id="message"><a href="login.html">Already have an account?</a></p>
 			<p id="explainer"><a href="tutorial.html">How does this work?</a></p>
