@@ -2,72 +2,30 @@
 <html>
 
 <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">
+    <link href="forms.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="possible-texts.js"></script>
+    <script
+	  src="https://code.jquery.com/jquery-3.2.1.min.js"
+	  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	  crossorigin="anonymous"></script>
+    <script src="process-forms.js"></script> 
 </head>
 
 <body>
-    <div id="toolbar">
-        <span class="print-group">
-                 <i class="material-icons hoverbox">print</i>
+	<div id="form-container"> 
+		<img src="images/psychic-reader-logo.png" alt="Psychic Reader" width="400"/>
+		<form id="register-form" onsubmit="registerHandler(); return false;">
+			<input type="text" placeholder="Username" id="username" name="username"/><br />
+			<input type="text" placeholder="Psychic Name" id="botName" name="botName"/><br />
+			<input type="number" placeholder="PIN Number" id="pin" name="pin"/><br />
+			<input type="submit" value="Register"/><br />
+			<p id="message"><a href="login.html">Already have an account?</a></p>
+			<p id="explainer"><a href="tutorial.html">How does this work?</a></p>
+		</form>
 
-                 <i class="material-icons hoverbox">format_paint</i>
-             </span>
+	</div>
 
-        <span class="word-group">
-
-            <span class="fontfamily-group">Arial<i class="material-icons" id="arial-arrow">arrow_drop_down</i></span>
-    
-            <span class="fontsize-group">12<i class="material-icons" id="fontsize-arrow">arrow_drop_down</i></span>
-    
-    
-    </span>
-    <span class="text-group">
-                 <i class="material-icons hoverbox">format_bold</i>
-
-                 <i class="material-icons hoverbox">format_italic</i>
-
-                 <i class="material-icons hoverbox">format_underlined</i>
-
-                 <i class="material-icons hoverbox">format_color_text</i>
-             </span>
-
-    <span class="align-group">
-                <i class="material-icons hoverbox">format_align_left</i>
-
-                <i class="material-icons hoverbox">format_align_center</i>
-
-                <i class="material-icons hoverbox">format_align_right</i>
-
-                <i class="material-icons hoverbox">format_align_justify</i>
-            </span>
-
-    <span class="textlist-group">
-                <i class="material-icons hoverbox">format_line_spacing</i>
-
-                <i class="material-icons hoverbox">format_list_numbered</i>
-
-                <i class="material-icons hoverbox">format_list_bulleted</i>
-            </span>
-
-    <span class="format-group">
-                <i class="material-icons hoverbox">format_indent_decrease</i>
-
-                <i class="material-icons hoverbox">format_indent_increase</i>
-            </span>
-
-    <span class="link-group">
-                <i class="material-icons hoverbox">insert_link</i>
-            </span>
-    <span class="gradient"></span>
-
-    </div>
-  
-  <textarea id="text" autocomplete="false" autocorrect="false" autocapitalize="false" spellcheck="false" autofocus></textarea>
-
-    <script src="process-text.js"></script>
+	<script>populateRegistration()</script> 
 
 </body>
 
