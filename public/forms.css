@@ -6,6 +6,13 @@ body {
     font-size: 8px;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
 p {
     font-size: 18px;
 }
