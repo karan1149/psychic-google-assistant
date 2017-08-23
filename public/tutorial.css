@@ -2,13 +2,17 @@ body {
   background-color: #7600b3;
 }
 
+a {
+  color: #7600b3;
+}
+
 #tutorial-container {
   font-family: 'Helvetica', 'Arial', sans-serif;
   font-size: 16px;
   width: 700px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 20px 85px 30px 85px;
   background-color: white;
   -webkit-box-shadow: 0 0 10px #555;
