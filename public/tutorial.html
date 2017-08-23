@@ -13,16 +13,37 @@
 </head>
 
 <body>
-	<div id="tutorial-container"> 
+	<div id="tutorial-container" class="markdown-body"> 
 		<img src="images/psychic-reader-logo.png" alt="Psychic Reader" width="400"/>
 		<p id="registered" style="display:none"></p>
-		<p>Psychic Reader will convince your friends that the internet knows everything. They can ask her any question ("How old am I?"), and she will respond with the correct answer ("You are 16!"). Secretly, you will use a separate connected device to provide the answers for Psychic Reader. If your friends get suspicious, the connected device will appear to using a normal text editor!</p>
+		<h2>What is Psychic Reader?</h2>
+		<p><h3>Psychic Reader is a chatbot that will convince your friends that the internet knows everything.</h3> They can ask her any question, and she will respond with the correct answer. Secretly, you will use a separate connected device to provide the answers for Psychic Reader. If your friends get suspicious, the connected device will appear to using a normal text editor!</p>
+		<img src="images/psychic-assistant-banner-inverted.png" alt="Psychic Reader can answer any question!" width="100%"/>
 		<h2>Quick Start</h2>
+		<ol>
+			<li id="registered-list-item"><span>Register to create a username.</span> You will use the username to connect to your Google Assistant device from a separate device. This will allow you to provide Psychic Reader the answers to all questions she may get asked. You can register by prompting your Google Assistant ("OK Google") and then saying "Talk to Psychic Reader". Psychic Reader will provide steps for registration.</li>
+			<li><span>Prompt Psychic Reader.</span> Once you've registered you are able to prompt Psychic Reader ("Talk to Psychic Reader"), and she will recognize that you have registered. She will tell you her name and prompt your friends to ask her any questions.</li>
+			<li><span>Login on a separate device.</span> You can login <a href="login.html">here.</a> If you ever lose that link, just remember that you can go to <a href="https://getpsychicreader.com">https://getpsychicreader.com</a> and click the "Already have an account?" link at the bottom. To login, you will need your username from registration and the name of your Psychic Reader from the previous step. Note that the name of your Psychic Reader will change every time, to prevent strangers from connecting to your Google Assistant. Once you're successfully logged in, you will be redirected to a text editor.</li>
+			<li><span>Provide answers via the editor.</span> Though the text editor appears ordinary at first, you will use it to provide answers to any questions your friends ask the Psychic Reader. By default, the editor is pre-populated with some text, and no matter what you type, the editor will appear to expand out the original text. This provides you the ability to type in secret signals for Psychic Reader, even if your friends are watching. Once Psychic Reader is asked a question, enter one of the below commands into the editor.<br /> <br /><i>Key commands to know:</i><br />
+				<ul id="commands">
+				<li>Type "y" for a "yes" response to a yes/no question.</li>
+				<li>Type "n" for a "no" response to a yes/no question.</li>
+				<li>Type "." followed by any text response, followed by another "." for a response to an open-ended question. For example, ".you are 16 years old." is a valid command.</li>
+				</ul>
+				Note that if you type something that is not one of these commands into the editor, the editor will still expand out its text, but it will not send a response to the Psychic Reader.
+			</li>
+		</ol>
 		<h2>Advanced Tips</h2>
-		Some additional tips to help you get the most out of Psychic Reader:
 		<ul>
-			<li>Hello</li>
-			<li>Yes</li>
+			<li>You have about 5 seconds after Psychic Reader is asked a question to enter a command into the editor. If Psychic Reader does not receive a command by then, she will provide a vague response to the question.</li>
+			<li>You can type a command into the editor a few seconds before Psychic Reader receives a question. If you want to type in a command before your friend is done asking a question, you can do that.</li>
+			<li>If you type in "!" into the editor anytime, the editor will go into Disabled Mode, where it suddenly starts acting like a normal text editor: whatever you type will actually appear on the screen, and no commands are sent to Psychic Reader. Type in "!" again to exit Disabled Mode. Disabled Mode is useful if your friends are suspicious about the text editor--just show them!</li>
+			<li>Don't use the text editor just to type in commands--your friends will become suspicious. Instead, continually type on the editor while your friends ask questions to Psychic Reader. Avoid the "y", "n", ".", and "!" keys until you actually need to type in a command.</li>
+			<li>Open-ended responses can include any alphanumeric characters, spaces (" "), and commas (",").</li>
+			<li>You should login while Psychic Reader is introducing herself, but you must use the name she provides. Remember, Psychic Reader's name changes every time!</li>
+			<li>If your friend asks Psychic Reader for help, she will reply automatically with some advice. Don't worry, the trick won't be revealed!</li>
+			<li>If you forgot your username, you can ask Psychic Reader to remind you about it anytime. She will tell you your username, but she won't say anything else about the trick.</li>
+			<li>If you ask Psychic Reader to repeat what she just said, she will do it.</li>
 		</ul>
 		
 
@@ -35,6 +56,8 @@
 			var registeredPara = document.getElementById("registered");
 			registeredPara.style.display = "block";
 			registeredPara.innerText = `You've successfully registered with username "${registered}"!`;
+			var registeredList = document.getElementById("registered-list-item");
+			registeredList.style.display = "none";
 		}
 
 		function getParameterByName(name, url) {

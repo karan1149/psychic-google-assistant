@@ -1,0 +1,56 @@
+body {
+  background-color: #7600b3;
+}
+
+#tutorial-container {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-size: 16px;
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  padding: 20px 85px 30px 85px;
+  background-color: white;
+  -webkit-box-shadow: 0 0 10px #555;
+  box-shadow: 0 0 10px #555;
+}
+
+#registered {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 17px;
+}
+
+img {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+li {
+  margin-bottom: 25px;
+}
+
+li span {
+  font-weight: bold;
+}
+
+#commands {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 900px) {
+    #tutorial-container{
+        width: 85%;
+        padding: 25px 25px;
+    }
+
+}
