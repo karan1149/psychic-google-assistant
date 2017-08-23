@@ -3,6 +3,8 @@
 var registerURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/registerUsername";
 var loginURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/login";
 
+var editorURL = 'https://psychic-editor.firebaseapp.com/';
+
 function populateRegistration(){
     var retrievedPin = getParameterByName('pin');
     var retrievedBotName = getParameterByName('botName');
@@ -15,10 +17,10 @@ function populateRegistration(){
 }
 
 function loginHandler(){
-    document.getElementById("message").innerText = "";
+    document.getElementById("message").innerHTML = "Loading...";
 	var loginObject = {};
-	loginObject.username = document.getElementById("username").value;
-	loginObject.botName = document.getElementById("botName").value;
+	loginObject.username = document.getElementById("username").value.toLowerCase();
+	loginObject.botName = document.getElementById("botName").value.toLowerCase();
     console.log("sending", loginObject);
 	$.ajax({
 		url: loginURL,
@@ -27,7 +29,8 @@ function loginHandler(){
 		contentType: "application/json",
 		dataType: "json",
 		success: function(data){
-			console.log(data);
+            console.log(data);
+			window.location = editorURL + "?id=" + data.id;
 		}, 
 		error: function(error){
 			console.log(error);
@@ -37,10 +40,10 @@ function loginHandler(){
 }
 
 function registerHandler(){
-    document.getElementById("message").innerText = "";
+    document.getElementById("message").innerHTML = "Loading...";
 	var registerObject = {};
-	registerObject.username = document.getElementById("username").value;
-	registerObject.botName = document.getElementById("botName").value;
+	registerObject.username = document.getElementById("username").value.toLowerCase();
+	registerObject.botName = document.getElementById("botName").value.toLowerCase();
 	registerObject.pin = document.getElementById("pin").value;
     console.log("sending", registerObject);
 	$.ajax({
@@ -50,7 +53,9 @@ function registerHandler(){
 		contentType: "application/json",
 		dataType: "json",
 		success: function(data){
-			console.log(data.responseJSON);
+		    console.log(data);
+            document.getElementById("message").innerHTML = `<a href="${data.url}">${data.success}</a>`;
+            window.location = data.url;
 		}, 
 		error: function(error){
 			console.log(error);
