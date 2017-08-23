@@ -121,11 +121,19 @@ exports.registerUsername = functions.https.onRequest((request, response) => {
             } else if (!committed) {
               response.status(400).json({"error": "Your username appears to be taken."})
             } else {
-              registrationRef.set(null, function(errorRegistrationRef){
-                if (errorRegistrationRef){
-                  response.status(500).json({"error": "Could not clear old registration data, but your username appears to be registered now."});
+              // does not currently clear out previous usernames from usernames database if new one is entered
+              var userRef = db.ref("users").child(encodeAsFirebaseKey(registerInfo.userID)).child("last_username");
+              userRef.set(registerObject.username, function(errorLinking){
+                if (errorLinking) {
+                  response.status(500).json({"error": "Abnormal error linking your assistant to your username. Try again!"});
                 } else {
-                  response.status(200).json({"success": "Successfully linked your username to your device."})
+                  registrationRef.set(null, function(errorRegistrationRef){
+                    if (errorRegistrationRef){
+                      response.status(500).json({"error": "Could not clear old registration data, but your username appears to be registered now."});
+                    } else {
+                      response.status(200).json({"success": "Successfully linked your username to your device. Click here if you are not automatically redirected.", url: "https://getpsychicreader.com/tutorial.html?registered=" + registerObject.username})
+                    }
+                  });                  
                 }
               });
             }
