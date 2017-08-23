@@ -8,7 +8,7 @@ const firebaseAdmin = require('firebase-admin');
 firebaseAdmin.initializeApp(functions.config().firebase);
 var db = firebaseAdmin.database();
 
-var whitelist = ['http://localhost:8000', 'https://psychic-df2b4.firebaseapp.com'];
+var whitelist = ['http://localhost:8000', 'https://psychic-df2b4.firebaseapp.com', 'https://getpsychicreader.com', 'https://textedit.co', 'https://psychic-editor.firebaseapp.com'];
 var corsOptions = {
   origin: function(origin, callback){
     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
@@ -16,11 +16,9 @@ var corsOptions = {
   }
 };
 
-// TODO set host correctly
-// const cors = require('cors')({origin: "http://localhost:8000"});
 const cors = require('cors')(corsOptions);
 
-var possibleBotNames = ["John", "Mary"];
+var possibleBotNames = ["mary", "barbara", "maria", "linda", "lisa", "susan", "nancy", "karen", "laura", "michelle", "sarah", "amy", "ashley", "kelly", "emma"];
 
 exports.registerUsername = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
