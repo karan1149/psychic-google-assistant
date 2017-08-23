@@ -19,6 +19,75 @@ var corsOptions = {
 const cors = require('cors')(corsOptions);
 
 var possibleBotNames = ["mary", "barbara", "maria", "linda", "lisa", "susan", "nancy", "karen", "laura", "michelle", "sarah", "amy", "ashley", "kelly", "emma"];
+var possiblePrompts = [
+  "Have any more questions for me?", 
+  "Any more questions?", 
+  "Any more questions for me?", 
+  "You can ask me another question.", 
+  "Why don't you ask another question?", 
+  "If you were impressed by that, you can ask me another question.", 
+  "Impressive, right? Why don't you ask another question?", 
+  "Ask me more questions!", 
+  "Ask me another question if you so desire.", 
+  "Ask me another question if you want to see my psychic powers again.", 
+  "Ask me another question if you haven't had enough of my psychic powers.", 
+  "Do you still doubt my psychic powers? Ask another question!", 
+  "I'm ready for another question anytime.", 
+  "Ask me another question if you'd like.", 
+  "Got any more questions?", 
+  "Got any more questions for me?"
+];
+var possiblePreResponses = [
+  "<speak>Hmmmm...<break time='1.5s'/></speak>", 
+  "<speak>Hmmmmmmm...<break time='1.5s'/></speak>", 
+  "<speak>Hmmmm... <break time='1.5s'/>This is a difficult one.<break time='1s'/> My psychic powers tell me: <break time='1s'/></speak>", 
+  "<speak>Hmmmm... <break time='1.5s'/>This is a hard one.<break time='1s'/> My powers are telling me: <break time='1s'/></speak>", 
+  "<speak>Hmmmm... <break time='1.5s'/>I got it.<break time='1s'/></speak>", 
+  "<speak>That's a hard question...<break time='2s'/> I figured it out.<break time='1s'/></speak>"
+];
+
+var possibleVagueResponses = [
+  "<speak>I don't have much to say right now. You can ask another question.</speak>",
+  "<speak>I'm not sure that question deserves an answer. Ask another question.</speak>",
+  "<speak>That question can be answered many different ways. Why don't you ask another question?</speak>",
+  "<speak>Something is telling me the answer to that question is more complicated than you think. Ask another question.</speak>",
+  "<speak>That question is more complicated than you think. You can ask another question.</speak>",
+  "<speak>That question is more complicated than you think. Why don't you ask another question?</speak>",
+  "<speak>Many secrets lie in the answer to that question. You can ask another question.</speak>",
+  "<speak>I don't think it's best for me to answer that right now. You can ask another question.</speak>"
+];
+
+var possibleYesResponses = [
+  "<speak>The answer is yes.</speak>",
+  "<speak>Absolutely, yes.</speak>",
+  "<speak>My psychic powers tell me the answer is yes.</speak>",
+  "<speak>My powers tell me the answer is yes.</speak>",
+  "<speak>Yes.</speak>",
+  "<speak>My powers are telling me the answer is yes.</speak>",
+  "<speak>I can say with certainty that the answer is yes.</speak>",
+  "<speak>The answer is definitely yes.</speak>",
+  "<speak>I'm certain the answer is yes.</speak>",
+  "<speak>I'm fairly sure the answer is yes.</speak>",
+  "<speak>My powers are currently telling me the answer is yes.</speak>",
+  "<speak>My powers indicate the answer is yes.</speak>",
+  "<speak>The answer that has come to me is yes.</speak>",
+];
+
+var possibleNoResponses = [
+  "<speak>The answer is no.</speak>",
+  "<speak>Absolutely, no.</speak>",
+  "<speak>My psychic powers tell me the answer is no.</speak>",
+  "<speak>My powers tell me the answer is no.</speak>",
+  "<speak>No.</speak>",
+  "<speak>My powers are telling me the answer is no.</speak>",
+  "<speak>I can say with certainty that the answer is no.</speak>",
+  "<speak>The answer is definitely no.</speak>",
+  "<speak>I'm certain the answer is no.</speak>",
+  "<speak>I'm fairly sure the answer is no.</speak>",
+  "<speak>My powers are currently telling me the answer is no.</speak>",
+  "<speak>My powers indicate the answer is no.</speak>",
+  "<speak>The answer that has come to me is no.</speak>",
+];
 
 exports.registerUsername = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
