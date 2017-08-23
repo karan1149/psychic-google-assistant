@@ -97,6 +97,8 @@ exports.registerUsername = functions.https.onRequest((request, response) => {
       response.status(400).json({"error": "Your registration information does not appear to be valid. Be sure that the username is alphanumeric and that the PIN is a valid number."});
       return;
     } 
+    registerObject.username = registerObject.username.toLowerCase();
+    registerObject.botName = registerObject.botName.toLowerCase();
     var registrationRef = db.ref('registrations').child(encodeAsFirebaseKey(registerObject.pin));
     registrationRef.once("value", function(snapshot){
       var registerInfo = snapshot.val();
@@ -167,6 +169,8 @@ exports.login = functions.https.onRequest((request, response) => {
       response.status(400).json({"error": "Username and botname do not appear to have the correct format."});
       return;
     }
+    loginObject.username = loginObject.username.toLowerCase();
+    loginObject.botName = loginObject.botName.toLowerCase();
     var usernameRef = db.ref("usernames").child(encodeAsFirebaseKey(loginObject.username));
     usernameRef.once("value", function(snapshot){
       var usernameInfo = snapshot.val();
@@ -176,7 +180,7 @@ exports.login = functions.https.onRequest((request, response) => {
         var userRef = db.ref("users").child(encodeAsFirebaseKey(usernameInfo)).child("botName")
         userRef.once("value", function(botNameSnapshot){
           var botNameInfo = botNameSnapshot.val();
-          if (botNameInfo.toLowerCase() != loginObject.botName.toLowerCase()){
+          if (botNameInfo != loginObject.botName){
             response.status(400).json({"error": "The assistant name you entered appears to be incorrect."})
           } else {
             response.status(200).json({"success": "UserID successfully retrieved.", "id": usernameInfo});
