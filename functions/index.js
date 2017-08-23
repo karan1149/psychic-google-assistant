@@ -148,13 +148,13 @@ exports.acceptPhrase = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
     var phraseObject = request.body;
     // validate request
-    if (typeof(phraseObject.boolean) != "boolean" || phraseObject.boolean && typeof(phraseObject.yes) != "boolean" || !phraseObject.boolean && typeof(phraseObject.value) != "string"){
+    if (typeof(phraseObject.boolean) != "boolean" || phraseObject.boolean && typeof(phraseObject.yes) != "boolean" || !phraseObject.boolean && typeof(phraseObject.value) != "string" || !phraseObject.id || typeof(phraseObject.id) != "string"){
       response.status(400).json({"error": "input phrase object does not appear to be valid"});
       return;
     }
 
     // map request to ID if it is valid
-    var userID = "test";
+    var userID = phraseObject.id;
     var userRef = db.ref('users').child(encodeAsFirebaseKey(userID));
     userRef.update({"phraseInfo": {"time": Date.now(), "phraseObject": phraseObject}}, function(error){
       if (error){
