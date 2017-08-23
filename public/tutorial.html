@@ -4,15 +4,49 @@
 <head>
     <link href="tutorial.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/manifest.json">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="theme-color" content="#ffffff">    
 </head>
 
 <body>
 	<div id="tutorial-container"> 
 		<img src="images/psychic-reader-logo.png" alt="Psychic Reader" width="400"/>
+		<p id="registered" style="display:none"></p>
+		<p>Psychic Reader will convince your friends that the internet knows everything. They can ask her any question ("How old am I?"), and she will respond with the correct answer ("You are 16!"). Secretly, you will use a separate connected device to provide the answers for Psychic Reader. If your friends get suspicious, the connected device will appear to using a normal text editor!</p>
+		<h2>Quick Start</h2>
+		<h2>Advanced Tips</h2>
+		Some additional tips to help you get the most out of Psychic Reader:
+		<ul>
+			<li>Hello</li>
+			<li>Yes</li>
+		</ul>
 		
 
 
 	</div>
+
+	<script type="application/javascript">
+		var registered = getParameterByName('registered');
+		if (registered){
+			var registeredPara = document.getElementById("registered");
+			registeredPara.style.display = "block";
+			registeredPara.innerText = `You've successfully registered with username "${registered}"!`;
+		}
+
+		function getParameterByName(name, url) {
+		    if (!url) url = window.location.href;
+		    name = name.replace(/[\[\]]/g, "\\$&");
+		    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		        results = regex.exec(url);
+		    if (!results) return null;
+		    if (!results[2]) return '';
+		    return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+	</script>
 
 </body>
 
