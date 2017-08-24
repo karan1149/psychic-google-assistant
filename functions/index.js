@@ -202,12 +202,7 @@ exports.login = functions.https.onRequest((request, response) => {
 exports.psychicGuess = functions.https.onRequest((request, response) => {
   const app = new App({request, response});
 
-  // Fulfill action business logic
   function welcomeHandler(app) {
-    // Check if user is initiated
-    var botName = possibleBotNames[Math.floor(Math.random() * possibleBotNames.length)];
-    var textResponse = 'Hello, my name is ' + botName + '! Ask me any question you like.';
-    app.ask(textResponse);
     var userID = app.body_.originalRequest.data.user.userId;
     var botName = getRandomFromArray(possibleBotNames);
     var botRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("botName");
@@ -260,7 +255,14 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
       var difference = now - phraseInfo.time
       console.log(phraseInfo, difference);
       if (difference <= 5000 && difference > -5000){
-        var textResponse = getTextResponse(phraseInfo.phraseObject)
+        
+        var textResponse = getTextResponse(phraseInfo.phraseObject);
+        if (!textResponse.endsWith(".") && !textResponse.endsWith(".</speak>")) textResponse = textResponse + ".";
+        textResponse = textResponse.substring(0, 1).toUpperCase() + textResponse.substring(1);
+        var textResponse = textResponse + " " + getRandomFromArray(possiblePrompts);
+        if (Math.random() < .3) {
+          textResponse = getRandomFromArray(possiblePreResponses) + " " + textResponse;
+        }
         app.ask(textResponse);
 
         phraseInfoRef.off("value");
@@ -274,7 +276,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
       console.log("checking if sent");
       if (!sent){
         console.log("not sent");
-        var textResponse = "I don't have much to say";
+        var textResponse = getRandomFromArray(possibleVagueResponses);
         app.ask(textResponse);
         phraseInfoRef.off("value");
         phraseInfoRef.set(null);
