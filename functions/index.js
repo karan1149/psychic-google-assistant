@@ -239,8 +239,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   }
 
   function questionHandler(app) {
-    console.log(app.body_.originalRequest.data.user.userId);
-    var userID = "test";
+    var userID = app.body_.originalRequest.data.user.userId;
     var phraseInfoRef = db.ref("users").child(userID).child("phraseInfo");
     var now = Date.now();
     var sent = false;
