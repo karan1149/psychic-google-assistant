@@ -3,7 +3,7 @@
 var registerURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/registerUsername";
 var loginURL = "https://us-central1-psychic-df2b4.cloudfunctions.net/login";
 
-var editorURL = 'https://psychic-editor.firebaseapp.com/';
+var editorURL = 'https://textedit.co/';
 
 function populateRegistration(){
     var retrievedPin = getParameterByName('pin');
