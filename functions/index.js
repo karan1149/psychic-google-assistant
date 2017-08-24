@@ -209,11 +209,29 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
     var textResponse = 'Hello, my name is ' + botName + '! Ask me any question you like.';
     app.ask(textResponse);
     var userID = app.body_.originalRequest.data.user.userId;
+    var botName = getRandomFromArray(possibleBotNames);
     var botRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("botName");
-    botRef.set(botName, function(error){
-      if (error) console.log("error writing bot name to userID", userID);
-    });
-    recordLastResponse(userID, textResponse);
+      botRef.set(botName, function(error){
+        if (error) console.log("error writing bot name to userID", userID);
+        else {
+          // Check if user is initiated
+          var lastUsernameRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("last_username");
+          lastUsernameRef.once("value", function(snapshot){
+            var lastUsernameInfo = snapshot.val();
+            if (lastUsernameInfo == null){
+              initiationAsk(app, botName);
+              return;
+            }
+            var textResponse = 'Hello, my name is ' + toTitleCase(botName) + '! Ask me any question you like.';
+            app.setContext("initiated");
+            app.ask(textResponse);
+            
+            recordLastResponse(userID, textResponse);      
+          })
+        }
+      });
+
+
   }
 
   function unknownDeeplinkHandler(app) {
@@ -266,8 +284,54 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
 
   }
 
-  function initiationHandler(app) {
-    app.ask("Initiation starts now");
+  function initiationAsk(app, botName){
+    app.setContext("initiation-confirmation");
+    var textResponse = `<speak>Hi, my name is ${toTitleCase(botName)}. I'll tell you a secret.<break time='1s'/> I have the ability to read minds with my psychic powers. Just have your friends ask me any question, and I will appear to know the answer, no matter the question. Secretly, you will be using another device to tell me the answers. Your friends will be shocked! Do you want to learn how to do this?</speak>`;
+    app.ask(app.buildRichResponse().addSimpleResponse(textResponse).addSuggestions(["yes", "no"]));
+    recordLastResponse(app.body_.originalRequest.data.user.userId, textResponse)
+  }
+
+  function initiateHandler(app){
+    var userID = app.body_.originalRequest.data.user.userId;
+    var pinStateRef = db.ref("state/current_pin");
+    pinStateRef.transaction(function(currentPin){
+      return (currentPin || 1000) + 1;
+    }, function(error, committed, snapshot){
+      if (error || !committed) app.tell("Could not help you connect your device. Try again later!");
+      else {
+        var newPin = snapshot.val();
+        var userRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("botName");
+        userRef.once("value", function(userSnapshot){
+          var userBotInfo = userSnapshot.val();
+          if (!userBotInfo) app.tell("Could not help you connect your device at the moment. Try again later!");
+          else {
+            var registrationRef = db.ref("registrations").child(encodeAsFirebaseKey(newPin.toString()));
+            registrationRef.set({"botName": userBotInfo, "userID": userID}, function(registrationError){
+              if (registrationError) app.tell("Could not help you register at the moment. Try again later!");
+              else {
+                var hasScreen = app.hasSurfaceCapability(app.SurfaceCapabilities.SCREEN_OUTPUT);
+                if (hasScreen){
+                  app.tell(app.buildRichResponse().addSimpleResponse(`<speak>Let's create a username to connect to your current device. Once you're connected, you'll be able to secretly tell me how to respond to questions I get asked. After you enter a username, you'll be directed to a tutorial so you can learn how to use my psychic powers.</speak>`)
+                    .addBasicCard(app.buildBasicCard("hello")
+                      .setTitle("Your friends can ask Psychic Reader any question, and she will respond with the correct answer. Secretly, you will use a separate connected device to provide the answers for Psychic Reader. If your friends get suspicious, the connected device will appear to using a normal text editor! To connect your device, you need to make a username.")
+                      .addButton(`Enter your username to connect`, `https://getpsychicreader.com/?pin=${newPin.toString()}&botName=${userBotInfo}`)
+                      .setImage('https://getpsychicreader.com/images/psychic-assistant-banner-small.png', "Psychic Reader")
+                    )
+                  )
+                } else {
+                  var textResponse = `<speak>Let's get another device connected to your Google Assistant device. This device can be either a phone or a computer. Once you're connected, you'll be able to secretly tell me how to respond to questions I get asked. This will take just a minute. <break time='.75s'/>I'll wait a few seconds for you to take out another device. <break time='6s'/>To start, go to the website <break time='.3s'/>get <break time='.2s'/>psychic <break time='.2s'/>reader <break time='.2s'/>dot com. <break time='3s'/>If you need it, I'll spell out psychic for you: <say-as interpret-as="characters">p</say-as> <say-as interpret-as="characters">p</say-as> <say-as interpret-as="characters">p</say-as> <say-as interpret-as="characters">p</say-as> <say-as interpret-as="characters">p</say-as> <say-as interpret-as="characters">p</say-as> <say-as interpret-as="characters">p</say-as>. <break time='4s'/>I'll give you a few seconds to go to get psychic reader dot com. <break time='10s'/>I'll wait a little longer for you to get to get psychic reader dot com. <break time='7s'/>Once you're there, you should type in your username. <break time='1s'/>You should remember your username, since you will use it again. If you ever forget it, you can just ask me. <break time='6s'/>Next, type in my name. <break time='.6s'/>In case you forgot, my name is ${userBotInfo}. <break time='1s'/>That's spelled <say-as interpret-as="characters">${userBotInfo}</say-as>. <break time='5s'/> Lastly, type in your one-time pin number. You don't have to rememeber this. Your pin is ${newPin.toString()}. <break time='2s'/> I'll repeat: ${newPin.toString()}. <break time='2s'/>Again, my name is ${userBotInfo} and your pin is ${newPin.toString()}. <break time='2s'/>Once you're done, submit and read the quick start guide. When you're ready, talk to me again anytime.</speak>`;
+                  app.tell(textResponse);
+                  recordLastResponse(userID, textResponse);
+                }
+              }
+            });
+            
+          }
+        }) 
+      }
+    })
+  }
+
   }
 
   function repeatHandler(app) {
