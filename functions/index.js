@@ -183,7 +183,7 @@ exports.login = functions.https.onRequest((request, response) => {
     usernameRef.once("value", function(snapshot){
       var usernameInfo = snapshot.val();
       if (usernameInfo == null) {
-        response.status(400).json({"error": "Username appears to be incorrect. If you forgot your username, just ask your Google Assistant for help with initiation."});
+        response.status(400).json({"error": "Username appears to be incorrect. If you forgot it, just ask your Google Assistant for your username."});
       } else {
         var userRef = db.ref("users").child(encodeAsFirebaseKey(usernameInfo)).child("botName")
         userRef.once("value", function(botNameSnapshot){
@@ -332,10 +332,26 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
     })
   }
 
+  function usernameHandler(app) {
+    var userID = app.body_.originalRequest.data.user.userId;
+    var lastUsernameRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("last_username");
+    lastUsernameRef.once("value", function(snapshot){
+      var lastUsernameInfo = snapshot.val();
+      if (lastUsernameInfo == null){
+        app.ask("Oh no! It looks like you don't have a username!");
+        console.log("unexpected no username");
+        return;
+      }
+      var textResponse = `<speak>Your username is ${lastUsernameInfo}. <break time="1s"/> Do you have any more questions?`;
+      app.ask(textResponse);
+      recordLastResponse(textResponse);
+    });
   }
 
   function repeatHandler(app) {
     var userID = app.body_.originalRequest.data.user.userId;
+    var contextName = app.getContext();
+    if (contextName) app.setContext(contextName);
     var lastResponseRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("lastResponse");
     lastResponseRef.once('value', function(lastResponseSnapshot){
       var lastResponseInfo = lastResponseSnapshot.val();
@@ -345,7 +361,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
         app.ask(textResponse);
         recordLastResponse(userID, textResponse);
       } else {
-        var textResponse = "<speak>I'll repeat what I said. <break time='1s'/> " + lastResponseInfo.response + "</speak>"
+        var textResponse = "<speak>I'll repeat what I said. <break time='1s'/></speak>" + lastResponseInfo.response;
         app.ask(textResponse);
       }
     })
@@ -355,8 +371,9 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   actionMap.set('input.welcome', welcomeHandler);
   actionMap.set('deeplink.unknown', unknownDeeplinkHandler);
   actionMap.set('input.unknown', questionHandler);
-  actionMap.set("initiation.help", initiationHandler);
+  actionMap.set("username.help", usernameHandler);
   actionMap.set("repeat", repeatHandler);
+  actionMap.set('initiation.yes', initiateHandler);
 
   app.handleRequest(actionMap);
 });
@@ -374,9 +391,9 @@ function encodeAsFirebaseKey (string) {
 function getTextResponse(phraseObject){
   if (phraseObject.boolean){
     if (phraseObject.yes){
-      return "yes";
+      return getRandomFromArray(possibleYesResponses);
     } else {
-      return "no";
+      return getRandomFromArray(possibleNoResponses);
     }
   } else {
     return phraseObject.value;
@@ -402,4 +419,13 @@ function recordLastResponse(userID, response){
   lastResponseRef.set({"time": Date.now(), "response": response}, function(error){
     if (error) console.log("There was an error in recording last response", userID, response);
   });
+}
+
+function getRandomFromArray(array){
+  return array[Math.floor(Math.random() * array.length)]
+}
+
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
