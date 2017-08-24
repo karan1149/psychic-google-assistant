@@ -357,7 +357,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
     lastResponseRef.once('value', function(lastResponseSnapshot){
       var lastResponseInfo = lastResponseSnapshot.val();
       var now = Date.now();
-      if (lastResponseInfo == null || lastResponseInfo.time == null || now - lastResponseInfo.time >= 60000){
+      if (lastResponseInfo == null || lastResponseInfo.time == null || now - lastResponseInfo.time >= 100000){
         var textResponse = "Honestly, I don't remember what I said. Did you have any questions to ask me?"
         app.ask(textResponse);
         recordLastResponse(userID, textResponse);
