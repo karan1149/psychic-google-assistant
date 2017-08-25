@@ -219,7 +219,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
             }
             var textResponse = 'Hello, my name is ' + toTitleCase(botName) + '! Ask me any question you like.';
             app.setContext("initiated");
-            app.ask(textResponse);
+            app.ask(textResponse, generateReprompts());
             
             recordLastResponse(userID, textResponse);      
           })
@@ -257,7 +257,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
         if (Math.random() < .3) {
           textResponse = getRandomFromArray(possiblePreResponses) + " " + textResponse;
         }
-        app.ask(textResponse);
+        app.ask(textResponse, generateReprompts());
 
         phraseInfoRef.off("value");
         phraseInfoRef.set(null);
@@ -271,7 +271,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
       if (!sent){
         console.log("not sent");
         var textResponse = getRandomFromArray(possibleVagueResponses);
-        app.ask(textResponse);
+        app.ask(textResponse, generateReprompts());
         phraseInfoRef.off("value");
         phraseInfoRef.set(null);
         recordLastResponse(userID, textResponse);
@@ -283,7 +283,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   function initiationAsk(app, botName){
     app.setContext("initiation-confirmation");
     var textResponse = `<speak>Hi, my name is ${toTitleCase(botName)}. I'll tell you a secret.<break time='1s'/> I have the ability to read minds with my psychic powers. Just have your friends ask me any question, and I will appear to know the answer, no matter the question. Secretly, you will be using another device to tell me the answers. Your friends will be shocked! Do you want to learn how to do this?</speak>`;
-    app.ask(app.buildRichResponse().addSimpleResponse(textResponse).addSuggestions(["yes", "no"]));
+    app.ask(app.buildRichResponse().addSimpleResponse(textResponse).addSuggestions(["yes", "no"]), ["Do you want to learn how to fool your friends?", "Did you want to learn more?", "We can stop here. Talk to you soon."]);
     recordLastResponse(app.body_.originalRequest.data.user.userId, textResponse)
   }
 
@@ -339,7 +339,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
         return;
       }
       var textResponse = `<speak>Your username is ${lastUsernameInfo}. <break time="1s"/> Do you have any more questions?`;
-      app.ask(textResponse);
+      app.ask(textResponse, generateReprompts());
       recordLastResponse(textResponse);
     });
   }
@@ -354,11 +354,11 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
       var now = Date.now();
       if (lastResponseInfo == null || lastResponseInfo.time == null || now - lastResponseInfo.time >= 100000){
         var textResponse = "Honestly, I don't remember what I said. Did you have any questions to ask me?"
-        app.ask(textResponse);
+        app.ask(textResponse, generateReprompts());
         recordLastResponse(userID, textResponse);
       } else {
         var textResponse = "<speak>I'll repeat what I said. <break time='1s'/></speak>" + lastResponseInfo.response;
-        app.ask(textResponse);
+        app.ask(textResponse, generateReprompts());
       }
     })
   }
@@ -408,6 +408,25 @@ function isAlphaNumeric(str) {
     }
   }
   return true;
+}
+
+function generateReprompts(){
+  var possibleReprompts = [
+    "Have any more questions for me?", 
+    "Any more questions?", 
+    "Any more questions for me?", 
+    "You can ask me another question.", 
+    "Why don't you ask another question?", 
+    "Ask me more questions!", 
+    "Ask me another question if you so desire.", 
+    "Ask me another question if you want to see my psychic powers again.", 
+    "Ask me another question if you haven't had enough of my psychic powers.",  
+    "I'm ready for another question anytime.", 
+    "Ask me another question if you'd like.", 
+    "Got any more questions?", 
+    "Got any more questions for me?"
+  ];
+  return [getRandomFromArray(possibleReprompts), getRandomFromArray(possibleReprompts), "We can stop here. Talk to me later if you have any more questions."]
 }
 
 function recordLastResponse(userID, response){
