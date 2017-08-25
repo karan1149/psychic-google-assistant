@@ -89,6 +89,10 @@ var possibleNoResponses = [
   "<speak>The answer that has come to me is no.</speak>",
 ];
 
+var possibleWelcomeMessages = [
+  'Ask me any question you like, and I will do my best to answer it using my psychic powers.',
+];
+
 exports.registerUsername = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
     var registerObject = request.body;
@@ -217,7 +221,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
               initiationAsk(app, botName);
               return;
             }
-            var textResponse = 'Hello, my name is ' + toTitleCase(botName) + '! Ask me any question you like.';
+            var textResponse = 'Hello, my name is ' + toTitleCase(botName) + '! ' + getRandomFromArray(possibleWelcomeMessages);
             app.setContext("initiated");
             app.ask(textResponse, generateReprompts());
             
