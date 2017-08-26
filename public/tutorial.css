@@ -49,6 +49,28 @@ li span {
   font-weight: bold;
 }
 
+#demo {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 8px;
+}
+
+#demo-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 9px 9px 9px 9px;
+  max-width: 500px;
+  background-color: #eee;
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 2px;
+  border: 1px solid #eee;
+}
+
 #commands {
   margin-top: 20px;
   margin-bottom: 10px;
