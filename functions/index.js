@@ -38,55 +38,55 @@ var possiblePrompts = [
   "Got any more questions for me?"
 ];
 var possiblePreResponses = [
-  "<speak>Hmmmm...<break time='1.5s'/></speak>", 
-  "<speak>Hmmmmmmm...<break time='1.5s'/></speak>", 
-  "<speak>Hmmmm... <break time='1.5s'/>This is a difficult one.<break time='1s'/> My psychic powers tell me: <break time='1s'/></speak>", 
-  "<speak>Hmmmm... <break time='1.5s'/>This is a hard one.<break time='1s'/> My powers are telling me: <break time='1s'/></speak>", 
-  "<speak>Hmmmm... <break time='1.5s'/>I got it.<break time='1s'/></speak>", 
-  "<speak>That's a hard question...<break time='2s'/> I figured it out.<break time='1s'/></speak>"
+  `I'm thinking...<break time='.5s'/>${getRandomSound()}<break time='.3s'/>It just came to me.`, 
+  `Let me think about that for a second...<break time='.75s'/>${getRandomSound()} I figured it out.`, 
+  `Hmmmm... <break time='1.5s'/>This is a difficult one.<break time='1s'/> My psychic powers tell me: <break time='1s'/>`, 
+  `Hmmmm... <break time='1.5s'/>This is a hard one.<break time='1s'/> My powers are telling me: <break time='1s'/>`, 
+  `Hmmmm... <break time='1.5s'/>I got it.<break time='1s'/>`, 
+  `That's a hard question...<break time='2s'/> I figured it out.<break time='1s'/>`
 ];
 
 var possibleVagueResponses = [
-  "<speak>I don't have much to say right now. You can ask another question.</speak>",
-  "<speak>I'm not sure that question deserves an answer. Ask another question.</speak>",
-  "<speak>That question can be answered many different ways. Why don't you ask another question?</speak>",
-  "<speak>Something is telling me the answer to that question is more complicated than you think. Ask another question.</speak>",
-  "<speak>That question is more complicated than you think. You can ask another question.</speak>",
-  "<speak>That question is more complicated than you think. Why don't you ask another question?</speak>",
-  "<speak>Many secrets lie in the answer to that question. You can ask another question.</speak>",
-  "<speak>I don't think it's best for me to answer that right now. You can ask another question.</speak>"
+  "I don't have much to say right now. You can ask another question.",
+  "I'm not sure that question deserves an answer. Ask another question.",
+  "That question can be answered many different ways. Why don't you ask another question?",
+  "Something is telling me the answer to that question is more complicated than you think. Ask another question.",
+  "That question is more complicated than you think. You can ask another question.",
+  "That question is more complicated than you think. Why don't you ask another question?",
+  "Many secrets lie in the answer to that question. You can ask another question.",
+  "I don't think it's best for me to answer that right now. You can ask another question."
 ];
 
 var possibleYesResponses = [
-  "<speak>The answer is yes.</speak>",
-  "<speak>Absolutely, yes.</speak>",
-  "<speak>My psychic powers tell me the answer is yes.</speak>",
-  "<speak>My powers tell me the answer is yes.</speak>",
-  "<speak>Yes.</speak>",
-  "<speak>My powers are telling me the answer is yes.</speak>",
-  "<speak>I can say with certainty that the answer is yes.</speak>",
-  "<speak>The answer is definitely yes.</speak>",
-  "<speak>I'm certain the answer is yes.</speak>",
-  "<speak>I'm fairly sure the answer is yes.</speak>",
-  "<speak>My powers are currently telling me the answer is yes.</speak>",
-  "<speak>My powers indicate the answer is yes.</speak>",
-  "<speak>The answer that has come to me is yes.</speak>",
+  "The answer is yes.",
+  "Absolutely, yes.",
+  "My psychic powers tell me the answer is yes.",
+  "My powers tell me the answer is yes.",
+  "Yes.",
+  "My powers are telling me the answer is yes.",
+  "I can say with certainty that the answer is yes.",
+  "The answer is definitely yes.",
+  "I'm certain the answer is yes.",
+  "I'm fairly sure the answer is yes.",
+  "My powers are currently telling me the answer is yes.",
+  "My powers indicate the answer is yes.",
+  "The answer that has come to me is yes.",
 ];
 
 var possibleNoResponses = [
-  "<speak>The answer is no.</speak>",
-  "<speak>Absolutely, no.</speak>",
-  "<speak>My psychic powers tell me the answer is no.</speak>",
-  "<speak>My powers tell me the answer is no.</speak>",
-  "<speak>No.</speak>",
-  "<speak>My powers are telling me the answer is no.</speak>",
-  "<speak>I can say with certainty that the answer is no.</speak>",
-  "<speak>The answer is definitely no.</speak>",
-  "<speak>I'm certain the answer is no.</speak>",
-  "<speak>I'm fairly sure the answer is no.</speak>",
-  "<speak>My powers are currently telling me the answer is no.</speak>",
-  "<speak>My powers indicate the answer is no.</speak>",
-  "<speak>The answer that has come to me is no.</speak>",
+  "The answer is no.",
+  "Absolutely, no.",
+  "My psychic powers tell me the answer is no.",
+  "My powers tell me the answer is no.",
+  "No.",
+  "My powers are telling me the answer is no.",
+  "I can say with certainty that the answer is no.",
+  "The answer is definitely no.",
+  "I'm certain the answer is no.",
+  "I'm fairly sure the answer is no.",
+  "My powers are currently telling me the answer is no.",
+  "My powers indicate the answer is no.",
+  "The answer that has come to me is no.",
 ];
 
 var possibleWelcomeMessages = [
@@ -255,13 +255,13 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
       if (difference <= 5000 && difference > -5000){
         
         var textResponse = getTextResponse(phraseInfo.phraseObject);
-        if (!textResponse.endsWith(".") && !textResponse.endsWith(".</speak>")) textResponse = textResponse + ".";
+        if (!textResponse.endsWith(".")) textResponse = textResponse + ".";
         textResponse = textResponse.substring(0, 1).toUpperCase() + textResponse.substring(1);
         var textResponse = textResponse + " " + getRandomFromArray(possiblePrompts);
         if (Math.random() < .3) {
           textResponse = getRandomFromArray(possiblePreResponses) + " " + textResponse;
         }
-        app.ask(textResponse, generateReprompts());
+        app.ask(`<speak>${textResponse}</speak>`, generateReprompts());
 
         phraseInfoRef.off("value");
         phraseInfoRef.set(null);
@@ -447,4 +447,9 @@ function getRandomFromArray(array){
 function toTitleCase(str)
 {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+function getRandomSound(){
+  var soundFiles = ['disappear-magic-blink_z1oETHEO.mp3', 'magic-chime-spooky_zyveRi4d (1).mp3', 'magic-chime-spooky_zyveRi4d.mp3', 'magic-hissy-emerging_zyzUiSVd.mp3', 'magic-organic-flutter-ethereal_f1bsDtEd.mp3', 'magic-organic-flutter-ethereal_Gy71uKV_.mp3', 'magic-spell-whoosh-impact_fkOdx2VO.mp3', 'magic-teleport-spell_Mk34jBNO.mp3', 'magic-vanish-spell_zkIk3r4O.mp3', 'magic-wand-blast-shot_GyKdlnVO.mp3', 'small-magic-bullet_fyw5oH4O.mp3', 'soul-passing-whoosh_MJFPaSNu.mp3', 'spooky-alien-scream_Mk7r3SV_.mp3', 'spooky-chimes-bells-pass_z1m8UrVu (1).mp3', 'spooky-chimes-bells-pass_z1m8UrVu.mp3', 'spooky-panning-voice-transitions_fyTK8H4O.mp3', 'spooky-passing-by_zyrD8SNu.mp3', 'strange-spooky-passing-whoosh_fJYTwBVu.mp3'];
+  return `<audio src="https://getpsychicreader.com/sounds/${getRandomFromArray(soundFiles)}"><desc></desc>spooky sound</audio>`
 }
