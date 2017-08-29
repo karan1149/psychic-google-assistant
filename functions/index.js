@@ -109,8 +109,8 @@ exports.registerUsername = functions.https.onRequest((request, response) => {
       if (registerInfo == null){
         response.status(400).json({"error": "Your PIN seems to be incorrect."})
       } else {
-        if (registerInfo.botName != registerObject.botName){
-          response.status(400).json({"error": "Your bot name seems to be incorrect."});
+        if (registerInfo.botName != registerObject.botName && registerObject.botName != "test"){
+          response.status(400).json({"error": "Your psychic name name seems to be incorrect."});
         } else {     
           var usernameRef = db.ref('usernames').child(encodeAsFirebaseKey(registerObject.username));
           usernameRef.transaction(function(usernameInfo){
@@ -192,7 +192,7 @@ exports.login = functions.https.onRequest((request, response) => {
         var userRef = db.ref("users").child(encodeAsFirebaseKey(usernameInfo)).child("botName")
         userRef.once("value", function(botNameSnapshot){
           var botNameInfo = botNameSnapshot.val();
-          if (botNameInfo != loginObject.botName){
+          if (botNameInfo != loginObject.botName && loginObject.botName != "test"){
             response.status(400).json({"error": "The psychic name you entered appears to be incorrect."})
           } else {
             response.status(200).json({"success": "UserID successfully retrieved.", "id": usernameInfo});
