@@ -158,7 +158,7 @@ exports.acceptPhrase = functions.https.onRequest((request, response) => {
     }
 
     // map request to ID if it is valid
-    var userID = "test";
+    var userID = phraseObject.id;
     var userRef = db.ref('users').child(encodeAsFirebaseKey(userID));
     userRef.update({"phraseInfo": {"time": Date.now(), "phraseObject": phraseObject}}, function(error){
       if (error){
@@ -207,7 +207,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   const app = new App({request, response});
 
   function welcomeHandler(app) {
-    var userID = "test";
+    var userID = app.body_.originalRequest.data.user.userId;
     var botName = getRandomFromArray(possibleBotNames);
     var botRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("botName");
       botRef.set(botName, function(error){
@@ -238,7 +238,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   }
 
   function questionHandler(app) {
-    var userID = "test";
+    var userID = app.body_.originalRequest.data.user.userId;
     var phraseInfoRef = db.ref("users").child(userID).child("phraseInfo");
     var now = Date.now();
     var sent = false;
@@ -333,7 +333,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   }
 
   function usernameHandler(app) {
-    var userID = "test";
+    var userID = app.body_.originalRequest.data.user.userId;
     var lastUsernameRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("last_username");
     lastUsernameRef.once("value", function(snapshot){
       var lastUsernameInfo = snapshot.val();
@@ -349,7 +349,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
   }
 
   function repeatHandler(app) {
-    var userID = "test";
+    var userID = app.body_.originalRequest.data.user.userId;
     var contextName = app.getContext();
     if (contextName) app.setContext(contextName);
     var lastResponseRef = db.ref("users").child(encodeAsFirebaseKey(userID)).child("lastResponse");
