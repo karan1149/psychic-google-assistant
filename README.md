@@ -1,6 +1,6 @@
 # Psychic Reader, for Google Assistant
 
-Psychic Reader is an app for Actions on Google that can be invoked on any Google Assistant device (phones, Google Home, Allo, etc.) by saying "Talk to Psychic Reader". This is the backend and most of the frontend (the text editor frontend is [here](https://github.com/karan1149/psychic-google- assistant-editor)).
+Psychic Reader is an app for Actions on Google that can be invoked on any Google Assistant device (phones, Google Home, Allo, etc.) by saying "Talk to Psychic Reader". This is the backend and most of the frontend (the text editor frontend is [here](https://github.com/karan1149/psychic-google-assistant-editor)).
 
 The user of the app can tell their friends to ask Psychic Reader any question, and the app will always respond with the correct answer. Secretly, the user will be using a separate connected device to provide answers for Psychic Reader. The connected device will appear to be using an innocent text editor, not typing anything suspicious. 
 
