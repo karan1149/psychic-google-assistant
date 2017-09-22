@@ -90,7 +90,14 @@ var possibleNoResponses = [
 ];
 
 var possibleWelcomeMessages = [
-  'Ask me any question you like, and I will do my best to answer it using my psychic powers.',
+  `You can ask me any question you like, and I will do my best to answer it using my psychic powers. I think you'll be surprised by my abilities. Why don't you ask a question?`,
+  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader.  You can ask me any question you like, and I will do my best to answer it using my psychic powers. I think you'll be surprised by my abilities. Why don't you ask a question?`,
+  `You can ask me any question you like, and I will do my best to answer it using my psychic powers. I think you'll be impressed by my abilities. Why don't you ask me something?`,
+  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader. Ask me any question, and I will read your mind and tell you the correct answer. I think you'll be impressed by my abilities. Why don't you ask a question?`,
+  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader and I have the ability to read your mind. Ask me any question, and I will tell you the correct answer. I think you'll be impressed by my abilities. Why don't you ask a question?`,
+  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader and I can answer any question you have by reading your mind. I think you'll be impressed by my abilities. Why don't you ask a question?`,
+  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader.  You can ask me any question you like, and I will answer it correctly using my psychic powers. I think you'll be surprised by my abilities. Why don't you ask me a question?`,
+
 ];
 
 exports.registerUsername = functions.https.onRequest((request, response) => {
@@ -223,7 +230,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
             }
             var textResponse = 'Hello, my name is ' + toTitleCase(botName) + '! ' + getRandomFromArray(possibleWelcomeMessages);
             app.setContext("initiated");
-            app.ask(textResponse, generateReprompts());
+            app.ask(`<speak>${textResponse}</speak>`, generateReprompts());
             
             recordLastResponse(userID, textResponse);      
           })
@@ -258,7 +265,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
         if (!textResponse.endsWith(".")) textResponse = textResponse + ".";
         textResponse = textResponse.substring(0, 1).toUpperCase() + textResponse.substring(1);
         var textResponse = textResponse + " " + getRandomFromArray(possiblePrompts);
-        if (Math.random() < .3) {
+        if (Math.random() < .4) {
           textResponse = getRandomFromArray(possiblePreResponses) + " " + textResponse;
         }
         app.ask(`<speak>${textResponse}</speak>`, generateReprompts());
