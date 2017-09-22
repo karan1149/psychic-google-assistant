@@ -98,7 +98,7 @@ exports.registerUsername = functions.https.onRequest((request, response) => {
     var registerObject = request.body;
     // validate request 
     if (typeof(registerObject.pin) != "string" || typeof(registerObject.username) != "string" || typeof(registerObject.botName) != "string" || !isAlphaNumeric(registerObject.username) || isNaN(registerObject.pin) || registerObject.username.length == 0 || registerObject.botName.length == 0 || registerObject.pin.length == 0){
-      response.status(400).json({"error": "Your registration information does not appear to be valid. Be sure that the username is alphanumeric and that the PIN is a valid number."});
+      response.status(400).json({"error": "Your registration information does not appear to be valid. Be sure that the username is alphanumeric (only letters and numbers) and that the PIN is a valid number."});
       return;
     } 
     registerObject.username = registerObject.username.toLowerCase();
@@ -193,7 +193,7 @@ exports.login = functions.https.onRequest((request, response) => {
         userRef.once("value", function(botNameSnapshot){
           var botNameInfo = botNameSnapshot.val();
           if (botNameInfo != loginObject.botName && loginObject.botName != "test"){
-            response.status(400).json({"error": "The psychic name you entered appears to be incorrect."})
+            response.status(400).json({"error": "The psychic name you entered appears to be incorrect. You can get this by prompting Psychic Reader, she will tell you her name."})
           } else {
             response.status(200).json({"success": "UserID successfully retrieved.", "id": usernameInfo});
           }
