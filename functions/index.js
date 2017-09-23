@@ -81,7 +81,7 @@ var possibleYesResponses = [
 
 var possibleNoResponses = [
   "The answer is no.",
-  "Absolutely, no.",
+  "Absolutely not.",
   "My psychic powers tell me the answer is no.",
   "My powers tell me the answer is no.",
   "No.",
@@ -271,7 +271,7 @@ exports.psychicGuess = functions.https.onRequest((request, response) => {
         if (!textResponse.endsWith(".")) textResponse = textResponse + ".";
         textResponse = textResponse.substring(0, 1).toUpperCase() + textResponse.substring(1);
         var textResponse = textResponse + " " + getRandomFromArray(possiblePrompts);
-        if (Math.random() < .4) {
+        if (Math.random() < .35) {
           textResponse = getRandomFromArray(possiblePreResponses) + " " + textResponse;
         }
         app.ask(`<speak>${textResponse}</speak>`, generateReprompts());
