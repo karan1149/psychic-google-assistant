@@ -40,10 +40,16 @@ var possiblePrompts = [
 var possiblePreResponses = [
   `I'm thinking...<break time='.5s'/>${getRandomSound()}<break time='.3s'/>It just came to me.`, 
   `Let me think about that for a second...<break time='.75s'/>${getRandomSound()} I figured it out.`, 
-  `Hmmmm... <break time='1.5s'/>This is a difficult one.<break time='1s'/> My psychic powers tell me: <break time='1s'/>`, 
-  `Hmmmm... <break time='1.5s'/>This is a hard one.<break time='1s'/> My powers are telling me: <break time='1s'/>`, 
-  `Hmmmm... <break time='1.5s'/>I got it.<break time='1s'/>`, 
-  `That's a hard question...<break time='2s'/> I figured it out.<break time='1s'/>`
+  `Give me a second. <break time='1.5s'/>This is a difficult one.<break time='1s'/> I've figured it out. <break time='.5s'/>`, 
+  `Let me think. <break time='1.5s'/>This is a hard one.<break time='1s'/>  <break time='.5s'/>`, 
+  `That's an interesting question! <break time='1.5s'/>I got it.<break time='1s'/>`, 
+  `That's a hard question...<break time='2s'/> I figured it out.<break time='1s'/>`,
+  `That's certainly a good question. <break time='.35s'/>${getRandomSound()}<break time='.2s'/>I figured it out.<break time='1s'/>`,
+  `That's a hard question... <break time='.35s'/>${getRandomSound()}<break time='.2s'/> Wow, it just came to me.<break time='1s'/>`,
+  `I need to think about that. <break time='.35s'/>${getRandomSound()}<break time='.2s'/> The answer just came to me.<break time='1s'/>`,
+  `Give me a second to think. I think the answer is coming to me. <break time='.35s'/>${getRandomSound()}<break time='.3s'/>`,
+  `Let me think about that. My psychic powers will soon give me the answer. <break time='1.55s'/>${getRandomSound()}<break time='.3s'/>`,
+  `Give me a second. <break time='1.55s'/>${getRandomSound()}<break time='.1s'/> I figured it out.<break time='.3s'/>`,
 ];
 
 var possibleVagueResponses = [
@@ -91,12 +97,12 @@ var possibleNoResponses = [
 
 var possibleWelcomeMessages = [
   `You can ask me any question you like, and I will do my best to answer it using my psychic powers. I think you'll be surprised by my abilities. Why don't you ask a question?`,
-  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader.  You can ask me any question you like, and I will do my best to answer it using my psychic powers. I think you'll be surprised by my abilities. Why don't you ask a question?`,
+  `I'm a psychic reader. <break time='.3s'/>${getRandomStartingSound()}<break time='.1s'/> You can ask me any question you like, and I will do my best to answer it using my psychic powers. I think you'll be surprised by my abilities. Try asking me a question.`,
   `You can ask me any question you like, and I will do my best to answer it using my psychic powers. I think you'll be impressed by my abilities. Why don't you ask me something?`,
-  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader. Ask me any question, and I will read your mind and tell you the correct answer. I think you'll be impressed by my abilities. Why don't you ask a question?`,
-  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader and I have the ability to read your mind. Ask me any question, and I will tell you the correct answer. I think you'll be impressed by my abilities. Why don't you ask a question?`,
-  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader and I can answer any question you have by reading your mind. I think you'll be impressed by my abilities. Why don't you ask a question?`,
-  `<break time='.2s'/>${getRandomStartingSound()}<break time='.1s'/> I'm a psychic reader.  You can ask me any question you like, and I will answer it correctly using my psychic powers. I think you'll be surprised by my abilities. Why don't you ask me a question?`,
+  `I'm a psychic reader. <break time='.3s'/>${getRandomStartingSound()}<break time='.1s'/> Ask me any question, and I will read your mind and tell you the correct answer. I think you'll be impressed by my abilities. Try asking me a question.`,
+  `I'm a psychic reader and I have the ability to read your mind. <break time='.3s'/>${getRandomStartingSound()}<break time='.1s'/> Ask me any question, and I will tell you the correct answer. I think you'll be impressed by my abilities. You can ask me a question now.`,
+  `I'm a psychic reader and I can answer any question you have by reading your mind. <break time='.3s'/>${getRandomStartingSound()}<break time='.1s'/> I think you'll be impressed by my abilities. Why don't you ask me something?`,
+  `I'm a psychic reader. <break time='.3s'/>${getRandomStartingSound()}<break time='.1s'/> You can ask me any question you like, and I will answer it correctly using my psychic powers. I think you'll be surprised by my abilities. You can ask me a question now.`,
 
 ];
 
