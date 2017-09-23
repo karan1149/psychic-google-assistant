@@ -457,11 +457,11 @@ function toTitleCase(str)
 }
 
 function getRandomSound(){
-  var soundFiles = ['disappear-magic-blink_z1oETHEO.mp3', 'magic-chime-spooky_zyveRi4d (1).mp3', 'magic-chime-spooky_zyveRi4d.mp3', 'magic-hissy-emerging_zyzUiSVd.mp3', 'magic-organic-flutter-ethereal_f1bsDtEd.mp3', 'magic-organic-flutter-ethereal_Gy71uKV_.mp3', 'magic-spell-whoosh-impact_fkOdx2VO.mp3', 'magic-teleport-spell_Mk34jBNO.mp3', 'magic-vanish-spell_zkIk3r4O.mp3', 'magic-wand-blast-shot_GyKdlnVO.mp3', 'small-magic-bullet_fyw5oH4O.mp3', 'soul-passing-whoosh_MJFPaSNu.mp3', 'spooky-alien-scream_Mk7r3SV_.mp3', 'spooky-chimes-bells-pass_z1m8UrVu (1).mp3', 'spooky-chimes-bells-pass_z1m8UrVu.mp3', 'spooky-panning-voice-transitions_fyTK8H4O.mp3', 'spooky-passing-by_zyrD8SNu.mp3', 'strange-spooky-passing-whoosh_fJYTwBVu.mp3'];
+  var soundFiles = ['disappear-magic-blink_z1oETHEO.mp3', 'chime_shortened.mp3', 'chime_shortened.mp3', 'chime_shortened.mp3', 'chime_shortened.mp3', 'magic-hissy-emerging_zyzUiSVd.mp3', 'magic-organic-flutter-ethereal_f1bsDtEd.mp3', 'magic-organic-flutter-ethereal_Gy71uKV_.mp3', 'magic-spell-whoosh-impact_fkOdx2VO.mp3', 'magic-teleport-spell_Mk34jBNO.mp3', 'magic-vanish-spell_zkIk3r4O.mp3', 'magic-wand-blast-shot_GyKdlnVO.mp3', 'small-magic-bullet_fyw5oH4O.mp3', 'soul-passing-whoosh_MJFPaSNu.mp3', 'spooky-alien-scream_Mk7r3SV_.mp3', 'spooky-chimes-bells-pass_z1m8UrVu (1).mp3', 'spooky-chimes-bells-pass_z1m8UrVu.mp3', 'spooky-panning-voice-transitions_fyTK8H4O.mp3', 'spooky-passing-by_zyrD8SNu.mp3', 'strange-spooky-passing-whoosh_fJYTwBVu.mp3'];
   return `<audio src="https://getpsychicreader.com/sounds/${getRandomFromArray(soundFiles)}"><desc></desc>spooky sound</audio>`
 }
 
 function getRandomStartingSound(){
-  var soundFiles = ['magic-chime-spooky_zyveRi4d (1).mp3', 'magic-organic-flutter-ethereal_f1bsDtEd.mp3','magic-hissy-emerging_zyzUiSVd.mp3', 'magic-teleport-spell_Mk34jBNO.mp3'];
+  var soundFiles = ['chime_shortened.mp3'];
   return `<audio src="https://getpsychicreader.com/sounds/${getRandomFromArray(soundFiles)}"><desc></desc>spooky sound</audio>`
 }
